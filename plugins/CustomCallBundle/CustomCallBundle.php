@@ -17,8 +17,9 @@ class CustomCallBundle extends PluginBundleBase
      * @param Plugin        $plugin
      * @param MauticFactory $factory
      * @param null          $metadata
-     */
-
+     * */
+     
+    /*
     static public function onPluginInstall(Plugin $plugin, MauticFactory $factory, $metadata = null)
     {
         if ($metadata !== null) {
@@ -27,6 +28,8 @@ class CustomCallBundle extends PluginBundleBase
 
         // Do other install stuff
     }
+
+    */
 
     /**
     * Called by PluginController::reloadAction when the plugin version does not match what's installed
@@ -38,6 +41,7 @@ class CustomCallBundle extends PluginBundleBase
     *
     * @throws \Exception
     */
+    /*
     static public function onPluginUpdate(Plugin $plugin, MauticFactory $factory, $metadata = null, Schema $installedSchema = null)
     {
         $db             = $factory->getDatabase();
@@ -76,7 +80,7 @@ class CustomCallBundle extends PluginBundleBase
                 throw $e;
             }
         }
-    }
+    }*/
 }
 
 ?>

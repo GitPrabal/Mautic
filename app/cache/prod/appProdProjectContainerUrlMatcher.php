@@ -478,6 +478,19 @@ class appProdProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBundle\R
         }
 
         if (0 === strpos($pathinfo, '/c')) {
+            if (0 === strpos($pathinfo, '/call')) {
+                // plugin_customcall_goodbye
+                if ('/call/goodbye' === $pathinfo) {
+                    return array (  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::goodbyeAction',  '_route' => 'plugin_customcall_goodbye',);
+                }
+
+                // plugin_customcall_contact
+                if ('/call/contact' === $pathinfo) {
+                    return array (  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::contactAction',  '_route' => 'plugin_customcall_contact',);
+                }
+
+            }
+
             // mautic_plugin_clearbit_index
             if ('/clearbit/callback' === $pathinfo) {
                 return array (  '_controller' => 'MauticPlugin\\MauticClearbitBundle\\Controller\\PublicController::callbackAction',  '_route' => 'mautic_plugin_clearbit_index',);
@@ -1261,9 +1274,40 @@ class appProdProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBundle\R
 
             }
 
-            // mautic_plugin_clearbit_action
-            if (0 === strpos($pathinfo, '/s/clearbit') && preg_match('#^/s/clearbit/(?P<objectAction>[^/]++)(?:/(?P<objectId>[a-zA-Z0-9_-]+))?$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'mautic_plugin_clearbit_action')), array (  '_controller' => 'MauticPlugin\\MauticClearbitBundle\\Controller\\ClearbitController::executeAction',  'objectId' => 0,));
+            if (0 === strpos($pathinfo, '/s/c')) {
+                if (0 === strpos($pathinfo, '/s/call')) {
+                    // plugin_customcall
+                    if ('/s/call' === $pathinfo) {
+                        return array (  'call' => 'call',  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::indexAction',  '_route' => 'plugin_customcall',);
+                    }
+
+                    // ddi_lead_actions_call_index
+                    if ('/s/call' === $pathinfo) {
+                        return array (  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::indexAction',  '_route' => 'ddi_lead_actions_call_index',);
+                    }
+
+                    // mautic_customcall_default_action
+                    if (preg_match('#^/s/call/(?P<objectAction>[^/]++)(?:/(?P<objectId>[a-zA-Z0-9_-]+))?$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'mautic_customcall_default_action')), array (  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::executeAction',  'objectId' => 0,));
+                    }
+
+                    // plugin_customcall_list
+                    if (preg_match('#^/s/call(?:/(?P<page>\\d+))?$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'plugin_customcall_list')), array (  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::indexAction',  'page' => 0,));
+                    }
+
+                    // plugin_customcall_admin
+                    if ('/s/call/admin' === $pathinfo) {
+                        return array (  '_controller' => 'MauticPlugin\\CustomCallBundle\\Controller\\CallController::adminAction',  '_route' => 'plugin_customcall_admin',);
+                    }
+
+                }
+
+                // mautic_plugin_clearbit_action
+                if (0 === strpos($pathinfo, '/s/clearbit') && preg_match('#^/s/clearbit/(?P<objectAction>[^/]++)(?:/(?P<objectId>[a-zA-Z0-9_-]+))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'mautic_plugin_clearbit_action')), array (  '_controller' => 'MauticPlugin\\MauticClearbitBundle\\Controller\\ClearbitController::executeAction',  'objectId' => 0,));
+                }
+
             }
 
             if (0 === strpos($pathinfo, '/s/opportunities')) {

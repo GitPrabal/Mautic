@@ -10,11 +10,15 @@ return array(
     'routes'   => array(
         'main' => array(
             'plugin_customcall' => array(
-                'path'       => '/call/{call}',
+                'path'       => '/call',
                 'controller' => 'CustomCallBundle:Call:index',
                 'defaults'    => array(
                     'call' => 'call'
                 ),
+            ),
+            'ddi_lead_actions_call_index' => array(
+                'path' => '/call',
+                'controller' => 'CustomCallBundle:Call:index'
             ),
             'mautic_customcall_default_action'       => array(
                 'path'       => '/call/{objectAction}/{objectId}',
@@ -50,21 +54,13 @@ return array(
 
     'menu'     => array(
         'main' => array(
-            'priority' => 4,
+            'priority' => 1,
             'items'    => array(
-                'plugin.customcall.index' => array(
-                    'id'        => 'plugin_helloworld_index',
-                    'iconClass' => 'fa-globe',
-                    'access'    => 'plugin:helloworld:worlds:view',
-                    'parent'    => 'mautic.core.channels',
-                    'children'  => array(
-                        'plugin.customcall.manage_worlds'     => array(
-                            'route' => 'plugin_helloworld_list'
-                        ),
-                        'mautic.category.menu.index' => array(
-                            'bundle' => 'plugin:helloWorld'
-                        )
-                    )
+                'customcall.call' => array(
+                    'id'        => 'Call Centre',
+                    'iconClass' => 'fa-phone',
+                    'access'    => 'plugin:customcall:call:view',
+                    'route' => 'plugin_customcall'
                 )
             )
         ),
@@ -73,11 +69,6 @@ return array(
                 'route'     => 'plugin_customcall_admin',
                 'iconClass' => 'fa-gears',
                 'access'    => 'admin',
-                'checks'    => array(
-                    'parameters' => array(
-                        'customcall_api_enabled' => true
-                    )
-                ),
                 'priority'  => 60
             )
         )
@@ -85,8 +76,8 @@ return array(
 
     'services'    => array(
         'models' =>  [
-            'mautic.helloworld.model.world' => [
-                'class' => 'MauticPlugin\HelloWorldBundle\Model\WorldModel',
+            'mautic.customcall.model.call' => [
+                'class' => 'MauticPlugin\CustomCallBundle\Model\CallModel',
                 'arguments' => [
                     'mautic.factory'
                 ]
@@ -95,25 +86,25 @@ return array(
         ],
         
         'events' => array(
-            'plugin.helloworld.leadbundle.subscriber' => array(
-                'class' => 'MauticPlugin\HelloWorldBundle\EventListener\LeadSubscriber'
+            'plugin.customcall.leadbundle.subscriber' => array(
+                'class' => 'MauticPlugin\CustomCallBundle\EventListener\LeadSubscriber'
             )
         ),
         'forms'  => array(
-            'plugin.helloworld.form' => array(
-                'class' => 'MauticPlugin\HelloWorldBundle\Form\Type\HelloWorldType',
+            'plugin.customcall.form' => array(
+                'class' => 'MauticPlugin\CustomCallBundle\Form\Type\HelloWorldType',
                 'alias' => 'helloworld'
             )
         ),
         'helpers' => array(
-            'mautic.helper.helloworld' => array(
-                'class'     => 'MauticPlugin\HelloWorldBundle\Helper\HelloWorldHelper',
+            'mautic.helper.customcall' => array(
+                'class'     => 'MauticPlugin\CustomCallBundle\Helper\HelloWorldHelper',
                 'alias'     => 'helloworld'
             )
         ),
         'other'   => array(
             'plugin.helloworld.mars.validator' => array(
-                'class'     => 'MauticPlugin\HelloWorldBundle\Form\Validator\Constraints\MarsValidator',
+                'class'     => 'MauticPlugin\CustomCallBundle\Form\Validator\Constraints\MarsValidator',
                 'arguments' => 'mautic.factory',
                 'tag'       => 'validator.constraint_validator',
                 'alias'     => 'helloworld_mars'
@@ -122,11 +113,11 @@ return array(
     ),
 
     'categories' => array(
-        'plugin:helloWorld' => 'mautic.helloworld.world.categories'
+        'plugin:helloWorld' => 'mautic.customcall.world.categories'
     ),
 
     'parameters' => array(
-        'helloworld_api_enabled' => false
+        'customcall_api_enabled' => false
     )
 
     );
